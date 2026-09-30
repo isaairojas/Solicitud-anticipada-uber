@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Solicitud anticipada Uber</title>
+    <script>
+      // SPA fallback para GitHub Pages: guarda la ruta original y redirige al index del sitio.
+      // El index (main.tsx) lee sessionStorage y hace history.replaceState para restaurar la URL.
+      (function () {
+        var base = '/Solicitud-anticipada-uber/';
+        var full = window.location.pathname + window.location.search + window.location.hash;
+        try { sessionStorage.setItem('spa-redirect', full); } catch (_) {}
+        window.location.replace(base);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

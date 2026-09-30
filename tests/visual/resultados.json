@@ -1,0 +1,82 @@
+{
+  "fecha": "2026-09-29T22:20:00.601Z",
+  "resultados": [
+    {
+      "id": "menu",
+      "figma": "3048:10103",
+      "pct": "0.56",
+      "estado": "OK",
+      "tam": "430x932"
+    },
+    {
+      "id": "asignacion-surtido",
+      "figma": "3048:10014",
+      "pct": "4.47",
+      "estado": "REVISAR",
+      "tam": "430x932"
+    },
+    {
+      "id": "surtido-inicial",
+      "figma": "3048:10138",
+      "pct": "3.71",
+      "estado": "REVISAR",
+      "tam": "430x932"
+    },
+    {
+      "id": "surtido-revisado-1964000",
+      "figma": "3086:11303",
+      "pct": "4.59",
+      "estado": "REVISAR",
+      "tam": "430x932"
+    },
+    {
+      "id": "surtido-parcial-2546000",
+      "figma": "3089:13509",
+      "pct": "3.71",
+      "estado": "REVISAR",
+      "tam": "430x932"
+    },
+    {
+      "id": "detalle-1964000",
+      "figma": "3199:6362",
+      "pct": "1.85",
+      "estado": "REVISAR",
+      "tam": "430x932"
+    },
+    {
+      "id": "detalle-2546000-parcial",
+      "figma": "3091:14568",
+      "pct": "3.13",
+      "estado": "REVISAR",
+      "tam": "430x932"
+    },
+    {
+      "id": "factura-formulario",
+      "figma": "3841:818",
+      "pct": "4.89",
+      "estado": "REVISAR",
+      "tam": "430x932"
+    },
+    {
+      "id": "config-menu",
+      "figma": "5917:1679",
+      "pct": "0.79",
+      "estado": "OK",
+      "tam": "430x932"
+    },
+    {
+      "id": "config-sonido",
+      "figma": "5170:12983",
+      "pct": "1.79",
+      "estado": "REVISAR",
+      "tam": "430x932"
+    },
+    {
+      "id": "config-impresion-procesos",
+      "figma": "5918:1978",
+      "pct": "1.05",
+      "estado": "REVISAR",
+      "tam": "430x932"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Handheld — Surtido, revisión y facturación",
+  "short_name": "Handheld",
+  "lang": "es-MX",
+  "start_url": "./menu",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#1B3892",
+  "icons": []
+}

@@ -1,0 +1,121 @@
+.screen {
+  position: absolute;
+  inset: 0;
+  background: var(--color-blanco);
+}
+
+/* Encabezado blanco — 3048:10104 */
+.header {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: flex-start;
+  width: 427px; /* figma: 3048:10104 */
+  height: 86px;
+  padding: 16px 22px;
+  border-radius: 30px 30px 0 0;
+  background: var(--color-blanco);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  filter: drop-shadow(0 0 2.5px rgba(0, 0, 0, 0.05)); /* figma: 3048:10104 (sin estilo) */
+}
+
+.headerTitle {
+  color: #343434; /* figma: 3048:10105 (sin estilo) */
+  font: 700 24px/normal var(--font-family-roboto); /* figma: 3048:10105 (sin estilo, 24 px) */
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Tarjetas — 3048:10106 */
+.cards {
+  position: absolute;
+  left: 0;
+  top: 56px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 876px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  flex-shrink: 0;
+  width: 100%;
+  height: 250px; /* figma: 3048:10107 */
+  margin-bottom: -60px;
+  padding: 60px 50px;
+  overflow: visible;
+  border-radius: 30px 30px 0 0;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  filter: drop-shadow(0 -5px 2.5px rgba(0, 0, 0, 0.05)); /* figma: 3048:10107 (sin estilo) */
+  text-align: left;
+}
+
+.card img {
+  flex-shrink: 0;
+}
+
+.cardText {
+  color: var(--color-blanco);
+  font: 400 28px/normal var(--font-family-roboto); /* figma: 3048:10108 (sin estilo, 28 px) */
+  white-space: nowrap;
+}
+
+.c1 {
+  gap: 150px; /* figma: 3048:10107 */
+  background: var(--color-primary-azul-300);
+}
+
+.c2 {
+  gap: 50px; /* figma: 3048:10111 */
+  background: var(--color-primary-azul-200);
+}
+
+.c3 {
+  gap: 100px; /* figma: 3048:10115 */
+  background: var(--color-primary-azul-100);
+}
+
+.c4 {
+  gap: 10px; /* figma: 3048:10119 */
+  margin-bottom: 0;
+  background: #a7b9ef; /* figma: 3048:10119 (sin estilo) */
+}
+
+.c4Row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 245px; /* figma: 3048:10120 */
+}
+
+/* Contador "+5" — 3048:10122 */
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 45px;
+  height: 45px;
+  padding: 10.286px 10.286px 10.286px 7.714px;
+  border-radius: 22.5px;
+  background: var(--color-secondary-rojo-300);
+}
+
+.badge p {
+  color: var(--color-blanco);
+  font: 700 19.698px/normal var(--font-family-roboto); /* figma: 3048:10123 (sin estilo) */
+  white-space: nowrap;
+}
+
+.salir {
+  width: 363px; /* figma: 3048:10128 */
+  flex: none;
+  text-transform: var(--text-transform-bttn-medium, capitalize); /* figma: textCase TITLE */
+}

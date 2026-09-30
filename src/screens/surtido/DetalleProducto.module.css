@@ -1,0 +1,56 @@
+.screen {
+  position: absolute;
+  inset: 0;
+  background: var(--color-blanco);
+}
+
+/* 3199:6380 */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+}
+
+/* "Datos" — 3199:6381 */
+.datos {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  width: 100%;
+}
+
+/* 3199:6393 */
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  width: 100%;
+}
+
+/* "Datos surtido" — 3199:6394 */
+.pair {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* "Cantidad surtida:" — 3199:6427 */
+.cantidad {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  width: 100%;
+}
+
+.cantidadLabel {
+  color: var(--color-negro);
+  font: var(--font-b2-body);
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.flex1 {
+  flex: 1 0 0;
+}

@@ -1,0 +1,337 @@
+{
+ "_fuente": "get_variable_defs (MCP remoto de Figma) — 2026-09-29",
+ "_nota": "La llave \"rgb(255, 255, 255)\" no es una variable con nombre: es un valor literal que el MCP reporta junto a las variables.",
+ "5381:890": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Blanco": "#FFFFFF",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B3. Body": "Font(family: \"Roboto\", style: Regular, size: 18, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Botones/Default": "#1B3892",
+  "Modal shadow": "Effect(type: DROP_SHADOW, color: #00000040, offset: (0, -1), radius: 9, spread: 0)"
+ },
+ "5917:1642": {
+  "Botones/Success": "#2DAA81",
+  "rgb(255, 255, 255)": "#FFFFFF"
+ },
+ "5917:1679": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Blanco": "#FFFFFF",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Primary/Azul 300": "#1B3892",
+  "Text font/B3. Body": "Font(family: \"Roboto\", style: Regular, size: 18, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Botones/Success": "#2DAA81",
+  "Modal shadow": "Effect(type: DROP_SHADOW, color: #00000040, offset: (0, -1), radius: 9, spread: 0)"
+ },
+ "5170:12983": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Blanco": "#FFFFFF",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Inactive Text": "#666666",
+  "Primary/Azul 300": "#1B3892",
+  "Botones/Disabled": "#BDBDBD",
+  "Botones/Success": "#2DAA81",
+  "Modal shadow": "Effect(type: DROP_SHADOW, color: #00000040, offset: (0, -1), radius: 9, spread: 0)"
+ },
+ "5918:2085": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Blanco": "#FFFFFF",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/S2. Subtitle": "Font(family: \"Roboto\", style: Bold, size: 18, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Inactive Text": "#666666",
+  "Inactive": "#E9E9E9",
+  "Text font/B3. Body": "Font(family: \"Roboto\", style: Regular, size: 18, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Botones/Error": "#E6002B",
+  "Divider": "#E1E1E1",
+  "Botones/Success": "#2DAA81",
+  "Botones/Default": "#1B3892",
+  "Modal shadow": "Effect(type: DROP_SHADOW, color: #00000040, offset: (0, -1), radius: 9, spread: 0)"
+ },
+ "5918:3126": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Blanco": "#FFFFFF",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Inactive Text": "#666666",
+  "Text font/S2. Subtitle": "Font(family: \"Roboto\", style: Bold, size: 18, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Inactive": "#E9E9E9",
+  "Primary/Azul 300": "#1B3892",
+  "Text font/B3. Body": "Font(family: \"Roboto\", style: Regular, size: 18, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Botones/Success": "#2DAA81",
+  "Botones/Error": "#E6002B",
+  "Botones/Default": "#1B3892"
+ },
+ "5384:1262": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Blanco": "#FFFFFF",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B3. Body": "Font(family: \"Roboto\", style: Regular, size: 18, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Botones/Success": "#2DAA81",
+  "Modal shadow": "Effect(type: DROP_SHADOW, color: #00000040, offset: (0, -1), radius: 9, spread: 0)",
+  "Botones/Default": "#1B3892"
+ },
+ "6361:2559": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Blanco": "#FFFFFF",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Inactive Text": "#666666",
+  "Text font/S2. Subtitle": "Font(family: \"Roboto\", style: Bold, size: 18, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Inactive": "#E9E9E9",
+  "Botones/Default": "#1B3892"
+ },
+ "5918:3573": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Inactive Text": "#666666",
+  "Text font/S2. Subtitle": "Font(family: \"Roboto\", style: Bold, size: 18, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Inactive": "#E9E9E9",
+  "Primary/Azul 300": "#1B3892",
+  "Text font/B3. Body": "Font(family: \"Roboto\", style: Regular, size: 18, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Blanco": "#FFFFFF",
+  "Botones/Default": "#1B3892",
+  "Botones/Success": "#2DAA81",
+  "Modal shadow": "Effect(type: DROP_SHADOW, color: #00000040, offset: (0, -1), radius: 9, spread: 0)"
+ },
+ "5234:23533": {
+  "Botones/Success": "#2DAA81",
+  "Botones/Error": "#E6002B",
+  "Botones/Amarillo": "#FFCB00",
+  "Botones/Disabled": "#BDBDBD"
+ },
+ "6225:1813": {},
+ "5918:5184": {},
+ "6640:1866": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Handheld nueva/H3. Headline": "Font(family: \"Roboto\", style: Bold, size: 18, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Blanco": "#FFFFFF",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)"
+ },
+ "5405:1277": {
+  "Text font/B3. Body": "Font(family: \"Roboto\", style: Regular, size: 18, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Botones/Amarillo": "#FFCB00",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Blanco": "#FFFFFF",
+  "Inactive": "#E9E9E9"
+ },
+ "5170:21980": {
+  "Primary/Azul 300": "#1B3892",
+  "Botones/Disabled": "#BDBDBD"
+ },
+ "3048:10138": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Secondary/Rojo 300": "#E6002B",
+  "Botones/Amarillo": "#FFCB00",
+  "Estatus/Sin iniciar": "#FFEDA6",
+  "Text font/Label": "Font(family: \"Roboto\", style: Regular, size: 12, weight: 400, lineHeight: 16, letterSpacing: 0)",
+  "Surtido inicial": "0",
+  "Amarillo": "#ffcb0059",
+  "Botones/Success": "#2DAA81"
+ },
+ "3199:6362": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Spinner input menos": "#1b3892",
+  "Primary/Azul 300": "#1B3892",
+  "Inactive Text": "#666666",
+  "Modal shadow": "Effect(type: DROP_SHADOW, color: #00000040, offset: (0, -1), radius: 9, spread: 0)",
+  "Botones/Default": "#1B3892",
+  "Botones/Disabled": "#BDBDBD"
+ },
+ "3058:12380": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Secondary/Rojo 300": "#E6002B",
+  "Botones/Amarillo": "#FFCB00",
+  "Estatus/Sin iniciar": "#FFEDA6",
+  "Text font/Label": "Font(family: \"Roboto\", style: Regular, size: 12, weight: 400, lineHeight: 16, letterSpacing: 0)",
+  "Estatus/Completado": "#CEEBE2",
+  "Revisado inicial": "0",
+  "Primary/Azul 300": "#1B3892",
+  "Inactive Text": "#666666",
+  "Largo barra 1": "0",
+  "Modal shadow": "Effect(type: DROP_SHADOW, color: #00000040, offset: (0, -1), radius: 9, spread: 0)"
+ },
+ "3126:14208": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Secondary/Rojo 300": "#E6002B",
+  "Botones/Amarillo": "#FFCB00",
+  "Botones/Success": "#2DAA81",
+  "Revisado": "0",
+  "Estatus/Completado": "#CEEBE2",
+  "Text font/Label": "Font(family: \"Roboto\", style: Regular, size: 12, weight: 400, lineHeight: 16, letterSpacing: 0)",
+  "Estatus/Parcialidad": "#94A7E3",
+  "Botones/Default": "#1B3892",
+  "Botones/Error": "#E6002B",
+  "Modal shadow": "Effect(type: DROP_SHADOW, color: #00000040, offset: (0, -1), radius: 9, spread: 0)",
+  "Primary/Azul 50": "#94A7E3",
+  "Primary/Azul 300": "#1B3892"
+ },
+ "3048:10014": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/H3. Headline": "Font(family: \"Roboto\", style: Bold, size: 18, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Botones/Success": "#2DAA81"
+ },
+ "4582:23551": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Secondary/Rojo 300": "#E6002B",
+  "Botones/Amarillo": "#FFCB00",
+  "Estatus/Negado": "#F6A6B5",
+  "Text font/Label": "Font(family: \"Roboto\", style: Regular, size: 12, weight: 400, lineHeight: 16, letterSpacing: 0)",
+  "Botones/Success": "#2DAA81",
+  "Estatus/Completado": "#CEEBE2",
+  "Estatus/Parcialidad": "#94A7E3",
+  "Text font/S2. Subtitle": "Font(family: \"Roboto\", style: Bold, size: 18, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Botones/Chip negado": "#E6002B",
+  "Active": "#CEEBE2",
+  "Modal shadow": "Effect(type: DROP_SHADOW, color: #00000040, offset: (0, -1), radius: 9, spread: 0)",
+  "Botones/Default": "#1B3892",
+  "Botones/Error": "#E6002B"
+ },
+ "3086:11540": {
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Estatus/Sin iniciar": "#FFEDA6",
+  "Text font/Label": "Font(family: \"Roboto\", style: Regular, size: 12, weight: 400, lineHeight: 16, letterSpacing: 0)",
+  "Estatus/Completado": "#CEEBE2",
+  "Botones/Success": "#2DAA81",
+  "Estatus/Parcialidad": "#94A7E3",
+  "Estatus/Negado": "#F6A6B5"
+ },
+ "3236:15669": {
+  "rgb(255, 255, 255)": "#FFFFFF",
+  "Text font/H2. Headline": "Font(family: \"Roboto\", style: Bold, size: 20, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B2. Body": "Font(family: \"Roboto\", style: Bold, size: 14, weight: 700, lineHeight: 100, letterSpacing: 0)",
+  "Text font/B1. Body": "Font(family: \"Roboto\", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0)",
+  "Secondary/Rojo 300": "#E6002B",
+  "Botones/Amarillo": "#FFCB00",
+  "Estatus/Sin iniciar": "#FFEDA6",
+  "Text font/Label": "Font(family: \"Roboto\", style: Regular, size: 12, weight: 400, lineHeight: 16, letterSpacing: 0)",
+  "Surtido inicial": "0",
+  "Botones/Success": "#2DAA81"
+ },
+ "_estilos_locales": {
+  "texto_11": [
+   "Text font/H1. Headline",
+   "Text font/H2. Headline",
+   "Text font/H3. Headline",
+   "Text font/S1. Subtitle",
+   "Text font/S2. Subtitle",
+   "Text font/B1. Body",
+   "Text font/B2. Body",
+   "Text font/B3. Body",
+   "Text font/B4. Bodyy",
+   "Text font/Label",
+   "Button font/Bttn. Medium"
+  ],
+  "color_26": [
+   "Active",
+   "Active Text",
+   "Inactive Text",
+   "Inactive",
+   "Negro",
+   "Primary/Azul 0",
+   "Primary/Azul 50",
+   "Primary/Azul 100",
+   "Primary/Azul 150",
+   "Primary/Azul 200",
+   "Primary/Azul 250",
+   "Primary/Azul 300",
+   "Secondary/Gris",
+   "Secondary/Rojo 300",
+   "Botones/Amarillo",
+   "Botones/Chip negado",
+   "Botones/Default",
+   "Botones/Disabled",
+   "Botones/Error",
+   "Botones/Success",
+   "Estatus/Sin iniciar",
+   "Estatus/Parcialidad",
+   "Estatus/Completado",
+   "Estatus/Negado",
+   "Blanco",
+   "Divider"
+  ],
+  "efecto_2": [
+   "Modal shadow",
+   "Card shadow"
+  ]
+ },
+ "_colecciones_variables": [
+  {
+   "name": "Un pedido x ronda",
+   "modes": [
+    "Mode 1"
+   ],
+   "vars": 8,
+   "tipos": {
+    "FLOAT": 5,
+    "COLOR": 3
+   }
+  },
+  {
+   "name": "Revisión en surtido",
+   "modes": [
+    "Mode 1"
+   ],
+   "vars": 7,
+   "tipos": {
+    "COLOR": 3,
+    "FLOAT": 4
+   }
+  },
+  {
+   "name": "Revisión independiente",
+   "modes": [
+    "Mode 1"
+   ],
+   "vars": 26,
+   "tipos": {
+    "FLOAT": 15,
+    "COLOR": 10,
+    "STRING": 1
+   }
+  },
+  {
+   "name": "Facturación",
+   "modes": [
+    "Mode 1"
+   ],
+   "vars": 3,
+   "tipos": {
+    "COLOR": 2,
+    "FLOAT": 1
+   }
+  }
+ ]
+}

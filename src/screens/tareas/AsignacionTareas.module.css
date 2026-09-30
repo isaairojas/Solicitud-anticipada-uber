@@ -1,0 +1,37 @@
+.screen {
+  position: absolute;
+  inset: 0;
+  background: var(--color-blanco);
+}
+
+/* "Empleado" / "Tarea asignada" — 3048:10037 */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  align-items: flex-start;
+}
+
+.sectionTitle {
+  display: flex;
+  gap: 10px; /* figma: 3048:10038 */
+  align-items: center;
+  justify-content: center;
+}
+
+.sectionTitle p {
+  color: var(--color-negro);
+  font: var(--font-h3-headline);
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.fieldWidth {
+  display: flex;
+  width: 362.563px; /* figma: 3048:10042 */
+}
+
+.half {
+  flex: none;
+  width: 173.5px; /* figma: 3048:10094 */
+}

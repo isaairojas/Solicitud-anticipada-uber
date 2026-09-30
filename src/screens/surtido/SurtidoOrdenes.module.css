@@ -1,0 +1,29 @@
+.screen {
+  position: absolute;
+  inset: 0;
+  background: var(--color-blanco);
+}
+
+/* Orders List — 3048:10157 */
+.list {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 1px;
+  padding: 2px 0;
+  overflow-x: clip;
+  overflow-y: auto;
+}
+
+/* "Order … Container" — 3048:10161 */
+.itemContainer {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+}
