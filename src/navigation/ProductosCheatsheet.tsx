@@ -8,6 +8,7 @@
  * mínimo de Uber (`REGLAS_UBER.montoMinimo`).
  */
 import { useState } from 'react';
+import { etiqueta } from '../domain/codigos';
 import { PRODUCTOS } from '../mocks/pedido';
 import styles from './ProductosCheatsheet.module.css';
 
@@ -17,9 +18,13 @@ function tipoDe(p: (typeof PRODUCTOS)[number]) {
   return p.esMiscelaneo ? 'Misceláneo' : 'Normal';
 }
 
-/** El sistema legado maneja SKUs de 18 dígitos (rellenados con ceros a la izquierda). */
-function skuLargo(codigo: string) {
-  return codigo.padStart(18, '0');
+/**
+ * Etiqueta APYMSA de 18 dígitos que el lector emite y el input de escaneo valida
+ * en `src/domain/codigos.ts` — [7 código][6 cantidad][5 peso]. Genera una por 1 pieza
+ * y peso 0 para poder pegarla directo en el input del surtido.
+ */
+function etiquetaPz1(codigo: string) {
+  return etiqueta(codigo, 1, 0);
 }
 
 export function ProductosCheatsheet() {
@@ -29,7 +34,7 @@ export function ProductosCheatsheet() {
 
   const copiar = async (codigo: string) => {
     try {
-      await navigator.clipboard.writeText(skuLargo(codigo));
+      await navigator.clipboard.writeText(etiquetaPz1(codigo));
       setCopiado(codigo);
       window.setTimeout(() => setCopiado((c) => (c === codigo ? null : c)), 1400);
     } catch {
@@ -43,7 +48,8 @@ export function ProductosCheatsheet() {
         <span className={styles.badge}>Pedido</span>
         <h2 className={styles.title}>Productos</h2>
         <p className={styles.subtitle}>
-          Ayuda de demo: click en el SKU (18 dígitos) para copiarlo y pegarlo en el input de escaneo.
+          Click en el código para copiar la etiqueta APYMSA de 18 dígitos (formato del lector:
+          <b> 7 código + 6 cantidad + 5 peso</b>) y pegarla en el input del surtido.
         </p>
       </header>
       <div className={styles.tableWrap}>
@@ -51,7 +57,7 @@ export function ProductosCheatsheet() {
           <thead>
             <tr>
               <th className={styles.thNum}>#</th>
-              <th>SKU</th>
+              <th>Etiqueta (18 dígitos)</th>
               <th className={styles.thPz}>Pzs</th>
               <th className={styles.thPr}>Precio</th>
               <th className={styles.thTipo}>Tipo</th>
@@ -66,9 +72,9 @@ export function ProductosCheatsheet() {
                     type="button"
                     className={`${styles.sku} ${copiado === p.codigo ? styles.skuCopiado : ''}`}
                     onClick={() => copiar(p.codigo)}
-                    title="Click para copiar"
+                    title={`Copiar etiqueta para SKU ${p.codigo} (1 pza)`}
                   >
-                    {copiado === p.codigo ? '¡Copiado!' : skuLargo(p.codigo)}
+                    {copiado === p.codigo ? '¡Copiado!' : etiquetaPz1(p.codigo)}
                   </button>
                 </td>
                 <td className={styles.tdPz}>{p.solicitado}</td>
