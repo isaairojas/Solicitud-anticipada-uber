@@ -113,24 +113,6 @@ export const ESCENARIOS: Record<string, Semilla> = {
     pedido: PEDIDO_COMPLETO,
     factura: { folio: '1099204', copias: 1, direccionEntrega: 2, embarque: EMBARQUE_DEFAULT },
   },
-  /* Solo el producto más pequeño surtido (1 pieza LIMPIADOR = $25) → monto < mínimo → NO candidato.
-     Demo de la regla `REGLAS_UBER.montoMinimo`. */
-  'uber-monto-bajo': {
-    etapa: 'uber',
-    pedido: {
-      ...pedidoCon({
-        '2655000': { surtido: 1, revisado: 1, revisionCompleta: true },
-        // resto negado
-        '1394000': { negado: true, surtido: 0 },
-        '2546000': { negado: true, surtido: 0 },
-        '3658201': { negado: true, surtido: 0 },
-        '1964000': { negado: true, surtido: 0 },
-        '4105000': { negado: true, surtido: 0 },
-      }),
-      finalizado: true,
-    },
-    factura: { folio: '1099204', copias: 1, direccionEntrega: 1, embarque: EMBARQUE_DEFAULT },
-  },
   /* Pantalla final "Solicitud creada" */
   'uber-confirmada': {
     etapa: 'uber',

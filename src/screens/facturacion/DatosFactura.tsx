@@ -5,7 +5,7 @@
  * URL: https://www.figma.com/design/zZBoCtJor0tdJ91umiqb7l/?node-id=3841-818
  * Última sincronización: 2026-09-29
  */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import idCard from '@assets/icons/id-card.svg';
 import listAlt from '@assets/icons/list-alt.svg';
@@ -26,8 +26,12 @@ import { Stepper } from '@ds/components/atoms/Stepper/Stepper';
 import { Divider } from '@ds/components/atoms/Divider/Divider';
 import { FloatingLabelInput } from '@ds/components/molecules/FloatingLabelInput/FloatingLabelInput';
 import { FACTURACION, EMBARQUES_ACTIVOS } from '../../mocks/facturacion';
+import { evaluarCandidatura } from '../../domain/uber';
+import { montoPedido, totalArticulos } from '../../domain/pedido';
+import { SUCURSAL_ACTUAL, TIPO_PAGO_ACTUAL, tieneActivoParaCliente } from '../../mocks/uber';
 import { useStore } from '../../store/AppStore';
 import { AgregarEmbarqueEleccionModal, AgregarEmbarqueSelectorModal, EmbarqueCreadoModal, FacturaAgregadaModal, NuevoEmbarqueModal } from './overlays/FacturacionModals';
+import { ConsolidacionModal, OfrecimientoUberModal } from '../uber/UberModals';
 import styles from './DatosFactura.module.css';
 
 type Estado = 'formulario' | 'generando' | 'error' | 'facturada';
@@ -67,12 +71,34 @@ function forzarError(): boolean {
   return new URLSearchParams(window.location.search).get('generar') === 'error';
 }
 
+const CLIENTE_ID = '536983'; // FACTURACION.cliente ("536983 | FRANCISCO JAVIER HERNADEZ MELENDREZ")
+
 export function DatosFactura() {
   const navigate = useNavigate();
-  const { factura, setFactura, mostrarToast, setEtapa } = useStore();
+  const { factura, pedido, setFactura, mostrarToast, setEtapa } = useStore();
   const [estado, setEstado] = useState<Estado>(factura.folio ? 'facturada' : 'formulario');
   const [overlay, setOverlay] = useState<Overlay | null>(() => overlayDesdeUrl());
+  /** El operador rechazó el ofrecimiento de Uber ("Ahora no"); no se vuelve a mostrar hasta recargar. */
+  const [ofrecimientoRechazado, setOfrecimientoRechazado] = useState(false);
   const dirRef = useRef<HTMLDivElement>(null);
+
+  const monto = montoPedido(pedido);
+  const articulos = totalArticulos(pedido);
+  const direccionActualTexto =
+    FACTURACION.direccionesEntrega.find((d) => d.id === factura.direccionEntrega)?.texto ?? FACTURACION.direccionesEntrega[0].texto;
+  const candidatura = useMemo(
+    () => evaluarCandidatura({ sucursal: SUCURSAL_ACTUAL, monto, tipoPago: TIPO_PAGO_ACTUAL }),
+    [monto],
+  );
+  const activo = tieneActivoParaCliente(CLIENTE_ID, direccionActualTexto);
+  /** Modal de Uber sobre Datos factura: aparece al terminar de crear el embarque y cumplir la candidatura. */
+  const mostrarOfrecimiento =
+    estado === 'facturada' && !!factura.embarque && candidatura.candidato && !ofrecimientoRechazado && overlay === null;
+
+  const irAFormularioUber = () => {
+    setEtapa('uber');
+    navigate('/uber?paso=formulario');
+  };
 
   const generar = () => {
     setEstado('generando');
@@ -254,13 +280,10 @@ export function DatosFactura() {
         <EmbarqueCreadoModal
           numero={overlay.numero}
           onConfirm={() => {
-            // ERB-53024: al aceptar el modal "Embarque creado" se dispara la evaluación de Uber.
-            // Si el usuario cierra el ofrecimiento (Ahora no) regresa aquí y verá la factura con
-            // el embarque, para reimprimir o regresar a tareas.
+            // ERB-53024: al aceptar el modal "Embarque creado" el ofrecimiento de Uber aparece
+            // automáticamente sobre esta misma pantalla (ver `mostrarOfrecimiento` arriba).
             setFactura((prev) => ({ ...prev, embarque: { numero: overlay.numero, facturas: 1, fecha: '2026-09-29 12:00' } }));
             setOverlay(null);
-            setEtapa('uber');
-            navigate('/uber');
           }}
         />
       )}
@@ -294,9 +317,23 @@ export function DatosFactura() {
           onConfirm={() => {
             setFactura((prev) => ({ ...prev, embarque: { numero: overlay.numero, facturas: overlay.facturas, fecha: overlay.fecha } }));
             setOverlay(null);
-            setEtapa('uber');
-            navigate('/uber');
           }}
+        />
+      )}
+
+      {/* Ofrecimiento Uber (o consolidación si el cliente ya tiene una solicitud creada para esta dirección) */}
+      {mostrarOfrecimiento && !activo && (
+        <OfrecimientoUberModal
+          monto={monto}
+          articulos={articulos}
+          onCancelar={() => setOfrecimientoRechazado(true)}
+          onContinuar={irAFormularioUber}
+        />
+      )}
+      {mostrarOfrecimiento && !!activo && (
+        <ConsolidacionModal
+          onCancelar={() => setOfrecimientoRechazado(true)}
+          onContinuar={irAFormularioUber}
         />
       )}
     </div>

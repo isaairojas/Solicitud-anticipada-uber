@@ -7,7 +7,7 @@
   top: 24px;
   left: 24px;
   bottom: 24px;
-  width: 380px;
+  width: 460px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -19,7 +19,7 @@
   z-index: 100;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1080px) {
   .panel {
     display: none;
   }
@@ -77,11 +77,10 @@
   text-transform: uppercase;
 }
 
-.thNum { width: 22px; text-align: center !important; }
-.thSku { width: 72px; }
-.thPz { width: 34px; text-align: right !important; }
-.thPr { width: 68px; text-align: right !important; }
-.thTipo { width: 74px; text-align: center !important; }
+.thNum { width: 24px; text-align: center !important; }
+.thPz { width: 40px; text-align: right !important; }
+.thPr { width: 76px; text-align: right !important; }
+.thTipo { width: 88px; text-align: center !important; }
 
 .table tbody tr {
   border-top: 1px solid rgba(0, 0, 0, 0.06);
@@ -105,13 +104,15 @@
 
 .sku {
   display: inline-block;
-  padding: 3px 6px;
+  padding: 4px 8px;
   border-radius: 4px;
   background: transparent;
   color: var(--color-primary-azul-300, #1b3892);
-  font: 700 12px/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font: 700 11.5px/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  letter-spacing: 0.2px;
   cursor: pointer;
   transition: background 120ms ease-out, color 120ms ease-out;
+  white-space: nowrap;
 }
 
 .sku:hover {

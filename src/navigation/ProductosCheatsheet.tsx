@@ -17,16 +17,21 @@ function tipoDe(p: (typeof PRODUCTOS)[number]) {
   return p.esMiscelaneo ? 'Misceláneo' : 'Normal';
 }
 
+/** El sistema legado maneja SKUs de 18 dígitos (rellenados con ceros a la izquierda). */
+function skuLargo(codigo: string) {
+  return codigo.padStart(18, '0');
+}
+
 export function ProductosCheatsheet() {
   const [copiado, setCopiado] = useState<string | null>(null);
   const total = PRODUCTOS.reduce((n, p) => n + p.precioUnitario * p.solicitado, 0);
   const piezas = PRODUCTOS.reduce((n, p) => n + p.solicitado, 0);
 
-  const copiar = async (sku: string) => {
+  const copiar = async (codigo: string) => {
     try {
-      await navigator.clipboard.writeText(sku);
-      setCopiado(sku);
-      window.setTimeout(() => setCopiado((c) => (c === sku ? null : c)), 1400);
+      await navigator.clipboard.writeText(skuLargo(codigo));
+      setCopiado(codigo);
+      window.setTimeout(() => setCopiado((c) => (c === codigo ? null : c)), 1400);
     } catch {
       /* clipboard bloqueado — la fila queda igual */
     }
@@ -38,7 +43,7 @@ export function ProductosCheatsheet() {
         <span className={styles.badge}>Pedido</span>
         <h2 className={styles.title}>Productos</h2>
         <p className={styles.subtitle}>
-          Ayuda de demo: click en el SKU para copiarlo y pegarlo en el input de escaneo.
+          Ayuda de demo: click en el SKU (18 dígitos) para copiarlo y pegarlo en el input de escaneo.
         </p>
       </header>
       <div className={styles.tableWrap}>
@@ -46,8 +51,7 @@ export function ProductosCheatsheet() {
           <thead>
             <tr>
               <th className={styles.thNum}>#</th>
-              <th className={styles.thSku}>SKU</th>
-              <th>Descripción</th>
+              <th>SKU</th>
               <th className={styles.thPz}>Pzs</th>
               <th className={styles.thPr}>Precio</th>
               <th className={styles.thTipo}>Tipo</th>
@@ -64,10 +68,9 @@ export function ProductosCheatsheet() {
                     onClick={() => copiar(p.codigo)}
                     title="Click para copiar"
                   >
-                    {copiado === p.codigo ? '¡Copiado!' : p.codigo}
+                    {copiado === p.codigo ? '¡Copiado!' : skuLargo(p.codigo)}
                   </button>
                 </td>
-                <td className={styles.tdDesc}>{p.descripcion}</td>
                 <td className={styles.tdPz}>{p.solicitado}</td>
                 <td className={styles.tdPr}>{currency.format(p.precioUnitario * p.solicitado)}</td>
                 <td className={styles.tdTipo}>
@@ -78,7 +81,7 @@ export function ProductosCheatsheet() {
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan={3} className={styles.footLabel}>
+              <td colSpan={2} className={styles.footLabel}>
                 Total
               </td>
               <td className={styles.tdPz}>{piezas}</td>
@@ -91,8 +94,8 @@ export function ProductosCheatsheet() {
         </table>
       </div>
       <p className={styles.hint}>
-        Si niegas todo y dejas solo <b>Foco H4</b>, <b>Limpiador</b> o <b>Terminal</b>, el monto cae bajo el
-        mínimo de <b>$150</b> y el pedido deja de ser candidato para Uber.
+        Si niegas todo excepto el <b>Interruptor</b> ($200), <b>Foco H4</b> ($100), <b>Limpiador</b> ($25) o{' '}
+        <b>Terminal</b> ($25), el monto cae bajo el mínimo de <b>$300</b> y el pedido deja de ser candidato para Uber.
       </p>
     </aside>
   );

@@ -9,7 +9,7 @@ export const REGLAS_UBER = {
   montoMaxCash: 1_700,
   /** Monto mínimo del pedido para ofrecer envío por Uber (no vale la pena un envío pagado
       con un ticket muy pequeño). Se aplica al monto real del pedido (piezas × precio unitario). */
-  montoMinimo: 150,
+  montoMinimo: 300,
   /** Concepto de pago Uber Cash */
   conceptoUberCash: 55,
 } as const;

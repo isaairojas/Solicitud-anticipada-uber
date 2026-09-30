@@ -1,29 +1,28 @@
 /**
- * Solicitud anticipada de Uber (ERB-53024).
- * Se dispara desde el flujo de facturación después de crear/agregar el embarque.
+ * Solicitud anticipada de Uber (ERB-53024) — solo pantallas de formulario y confirmación.
+ *
+ * El ofrecimiento y la consolidación ahora se muestran como modales sobre Datos de la factura
+ * (ver `src/screens/facturacion/DatosFactura.tsx` + `src/screens/uber/UberModals.tsx`).
+ * Cuando se llega a `/uber` sin `?paso=`, se entra directo al formulario.
  */
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import handPackage from '@assets/icons/hand-package.svg';
 import personIcon from '@assets/icons/person.svg';
 import locationOn from '@assets/icons/location-on.svg';
-import iconoPregunta from '@assets/icons/modal-icono-pregunta.svg';
-import grupo45 from '@assets/icons/grupo-45-cancelar.svg';
 import { AppHeader } from '@ds/components/organisms/AppHeader/AppHeader';
 import { ContentPanel } from '@ds/components/organisms/ContentPanel/ContentPanel';
 import { BottomBar } from '@ds/components/organisms/BottomBar/BottomBar';
 import { Button } from '@ds/components/atoms/Button/Button';
 import { Divider } from '@ds/components/atoms/Divider/Divider';
-import { ModalHeader, ModalIcon, ModalSheet } from '@ds/components/organisms/ModalSheet/ModalSheet';
-import { evaluarCandidatura, RESTRICCIONES_VEHICULO, type TipoVehiculo } from '../../domain/uber';
-import { montoPedido, totalArticulos } from '../../domain/pedido';
+import { RESTRICCIONES_VEHICULO, type TipoVehiculo } from '../../domain/uber';
 import { FACTURACION } from '../../mocks/facturacion';
-import { precargar, SUCURSAL_ACTUAL, tieneActivoParaCliente, TIPO_PAGO_ACTUAL } from '../../mocks/uber';
+import { precargar } from '../../mocks/uber';
 import { PEDIDO_ID } from '../../mocks/pedido';
 import { useStore } from '../../store/AppStore';
 import styles from './SolicitudUber.module.css';
 
-type Estado = 'ofrecimiento' | 'formulario' | 'confirmada';
+type Estado = 'formulario' | 'confirmada';
 
 const TOAST_SOLICITUD_CREADA = {
   kind: 'success' as const,
@@ -36,50 +35,27 @@ function nuevoNumeroSolicitud() {
   return String(Math.floor(10000 + Math.random() * 90000));
 }
 
-/**
- * Permite forzar el paso inicial vía `?paso=formulario|confirmada|consolidacion|ofrecimiento`.
- * `consolidacion` muestra el ofrecimiento con el modal inferior abierto.
- */
-type PasoInicial = Estado | 'consolidacion';
-function pasoInicialDesdeUrl(): PasoInicial | null {
+/** `?paso=formulario|confirmada` para saltar directamente a esa pantalla desde los escenarios. */
+function pasoInicialDesdeUrl(): Estado | null {
   if (typeof window === 'undefined') return null;
   const v = new URLSearchParams(window.location.search).get('paso');
-  return v === 'formulario' || v === 'confirmada' || v === 'consolidacion' || v === 'ofrecimiento' ? v : null;
+  return v === 'formulario' || v === 'confirmada' ? v : null;
 }
-
-const iconPregunta = <ModalIcon src={iconoPregunta} inset="-2.84% -2.27% -0.56% -1.14%" />;
 
 export function SolicitudUber() {
   const navigate = useNavigate();
-  const { factura, pedido, mostrarToast, setEtapa } = useStore();
+  const { factura, mostrarToast, setEtapa } = useStore();
 
   const clienteId = '536983'; // FACTURACION.cliente ("536983 | FRANCISCO JAVIER HERNADEZ MELENDREZ")
-  const clienteNombre = FACTURACION.cliente.split(' | ')[1] ?? FACTURACION.cliente;
   const direccion =
     FACTURACION.direccionesEntrega.find((d) => d.id === factura.direccionEntrega)?.texto ?? FACTURACION.direccionesEntrega[0].texto;
-  const articulos = totalArticulos(pedido);
-  const monto = montoPedido(pedido);
   const embarqueNumero = factura.embarque?.numero ?? '—';
   const tituloEmbarque = `Solicitud de Uber - Embarque ${embarqueNumero}`;
 
-  const candidatura = useMemo(
-    () => evaluarCandidatura({ sucursal: SUCURSAL_ACTUAL, monto, tipoPago: TIPO_PAGO_ACTUAL }),
-    [monto],
-  );
-  const activo = tieneActivoParaCliente(clienteId, direccion);
   const previa = precargar(clienteId, direccion);
 
   const pasoInicial = pasoInicialDesdeUrl();
-  const [estado, setEstado] = useState<Estado>(
-    pasoInicial === 'formulario' || pasoInicial === 'confirmada'
-      ? pasoInicial
-      : candidatura.candidato
-        ? 'ofrecimiento'
-        : 'confirmada',
-  );
-  /** Modal inferior de consolidación: se muestra sobre el ofrecimiento cuando existe una solicitud CREADA
-      para el mismo cliente + dirección (ACTIVOS_POR_CLIENTE_DIRECCION). */
-  const [mostrarConsolidacion, setMostrarConsolidacion] = useState(pasoInicial === 'consolidacion');
+  const [estado, setEstado] = useState<Estado>(pasoInicial ?? 'formulario');
   // Precarga: nombre, teléfono, referencias, dpto/oficina. La descripción del paquete siempre inicia VACÍA (criterio del usuario).
   const [nombre, setNombre] = useState(previa?.nombre ?? '');
   const [telefono, setTelefono] = useState(previa?.telefono ?? '');
@@ -104,103 +80,6 @@ export function SolicitudUber() {
     setEtapa('surtido');
     navigate('/tareas');
   };
-
-  /** "Ahora no" en el ofrecimiento: regresa a la pantalla de Datos de la factura (con folio + embarque),
-      donde el operador puede reimprimir o regresar a tareas. */
-  const rechazarUber = () => {
-    setEtapa('facturacion');
-    navigate('/facturacion');
-  };
-
-  /** Click en "Generar solicitud" del ofrecimiento:
-      - si hay una solicitud/embarque activo con el mismo cliente + dirección → abre el modal inferior;
-      - si no → va directo al formulario. */
-  const iniciarSolicitud = () => {
-    if (activo) setMostrarConsolidacion(true);
-    else setEstado('formulario');
-  };
-
-  /** Desde el modal: cerrar y regresar al ofrecimiento; el operador confirma la creación (Generar solicitud)
-      o rechaza el envío (Ahora no) desde ahí. */
-  const cerrarConsolidacion = () => setMostrarConsolidacion(false);
-
-  /** Desde el modal: continuar y generar una solicitud independiente para este pedido. */
-  const generarIndependiente = () => {
-    setMostrarConsolidacion(false);
-    setEstado('formulario');
-  };
-
-  if (!candidatura.candidato) {
-    return <NoCandidatoScreen motivo={candidatura.motivo} onSalir={irACapturas} />;
-  }
-
-  /* ---------------- Ofrecimiento (+ modal opcional de consolidación) ---------------- */
-  if (estado === 'ofrecimiento') {
-    return (
-      <div className={styles.screen}>
-        <AppHeader showBack={false} />
-        <ContentPanel title="Solicitud de Uber" paddingBottom={45} bottom={0}>
-          <div className={styles.center}>
-            <div className={styles.uberBadge}>Uber</div>
-            <p className={styles.h1}>Este embarque es candidato para envío por Uber</p>
-            <div className={styles.info}>
-              <div className={styles.infoRow}>
-                <b>Cliente</b>
-                <span className={styles.infoRowValue}>{clienteNombre}</span>
-              </div>
-              <Divider variant="modal" />
-              <div className={styles.infoRow}>
-                <b>Embarque</b>
-                <span>{embarqueNumero}</span>
-              </div>
-              <Divider variant="modal" />
-              <div className={styles.infoRow}>
-                <b>Dirección</b>
-                <span className={styles.infoRowValue}>{direccion}</span>
-              </div>
-              <Divider variant="modal" />
-              <div className={styles.infoRow}>
-                <b>Total de artículos</b>
-                <span>{articulos}</span>
-              </div>
-              <Divider variant="modal" />
-              <div className={styles.infoRow}>
-                <b>Distancia</b>
-                <span>{SUCURSAL_ACTUAL.distanciaKm} km</span>
-              </div>
-              <Divider variant="modal" />
-              <div className={styles.infoRow}>
-                <b>Total</b>
-                <span>${monto.toLocaleString('es-MX', { minimumFractionDigits: 2 })}</span>
-              </div>
-            </div>
-          </div>
-        </ContentPanel>
-        <BottomBar>
-          <div className="row">
-            <Button
-              variant="error"
-              label="Ahora no"
-              className={styles.flex1}
-              onClick={rechazarUber}
-            />
-            <Button
-              variant="success"
-              label="Generar solicitud"
-              className={styles.flex1}
-              onClick={iniciarSolicitud}
-            />
-          </div>
-        </BottomBar>
-        {mostrarConsolidacion && (
-          <ConsolidacionModal
-            onCancelar={cerrarConsolidacion}
-            onContinuar={generarIndependiente}
-          />
-        )}
-      </div>
-    );
-  }
 
   /* ---------------- Formulario ---------------- */
   if (estado === 'formulario') {
@@ -254,7 +133,15 @@ export function SolicitudUber() {
         </ContentPanel>
         <BottomBar>
           <div className="row">
-            <Button variant="error" label="Cancelar" className={styles.flex1} onClick={() => setEstado('ofrecimiento')} />
+            <Button
+              variant="error"
+              label="Cancelar"
+              className={styles.flex1}
+              onClick={() => {
+                setEtapa('facturacion');
+                navigate('/facturacion');
+              }}
+            />
             <Button
               variant="success"
               label="Solicitar Uber"
@@ -324,87 +211,5 @@ function FieldFloating({ label, icon, children }: { label: string; icon: string;
       <div className={styles.fieldBody}>{children}</div>
       <span className={styles.fieldLabel}>{label}</span>
     </div>
-  );
-}
-
-/**
- * Pantalla que aparece cuando el embarque NO cumple los criterios de Uber (monto, distancia, sucursal).
- * Antes redirigía silenciosamente a /tareas; ahora explica el motivo para que el operador lo entienda.
- */
-function NoCandidatoScreen({
-  motivo,
-  onSalir,
-}: {
-  motivo: 'sucursal' | 'distancia' | 'monto-credito' | 'monto-cash' | 'sucursal-cash' | 'monto-minimo';
-  onSalir: () => void;
-}) {
-  const copy: Record<typeof motivo, { titulo: string; texto: string }> = {
-    'monto-minimo': {
-      titulo: 'Este embarque no aplica para envío por Uber',
-      texto: `El monto del embarque es menor al mínimo permitido ($150). Cuando el ticket es muy bajo el envío por Uber no es rentable.`,
-    },
-    'monto-credito': {
-      titulo: 'Este embarque no aplica para envío por Uber',
-      texto: 'El monto del embarque supera el máximo permitido a crédito ($15,000).',
-    },
-    'monto-cash': {
-      titulo: 'Este embarque no aplica para envío por Uber',
-      texto: 'El monto del embarque supera el máximo permitido con Uber Cash ($1,700).',
-    },
-    distancia: {
-      titulo: 'Fuera de rango de reparto',
-      texto: 'La distancia entre la sucursal y el destino supera los 24 km permitidos por Uber.',
-    },
-    sucursal: {
-      titulo: 'Sucursal no habilitada',
-      texto: 'Esta sucursal aún no está habilitada para el envío anticipado por Uber.',
-    },
-    'sucursal-cash': {
-      titulo: 'Sucursal sin Uber Cash',
-      texto: 'Esta sucursal no está habilitada para Uber Cash.',
-    },
-  };
-  const { titulo, texto } = copy[motivo];
-  return (
-    <div className={styles.screen}>
-      <AppHeader showBack={false} />
-      <ContentPanel title="Solicitud de Uber" paddingBottom={45} bottom={0}>
-        <div className={styles.center}>
-          <div className={styles.warn}>!</div>
-          <p className={styles.h1}>{titulo}</p>
-          <p className={styles.text}>{texto}</p>
-        </div>
-      </ContentPanel>
-      <BottomBar variant="exit">
-        <Button variant="default" label="Regresar a tareas" className={styles.fullBtn} onClick={onSalir} />
-      </BottomBar>
-    </div>
-  );
-}
-
-/**
- * Modal inferior de consolidación: se muestra sobre el ofrecimiento cuando existe una solicitud CREADA
- * para el mismo cliente + dirección. El operador decide entre generar una solicitud independiente para
- * este pedido o agregar la factura al embarque existente (opción por defecto, "Cancelar").
- */
-function ConsolidacionModal({ onCancelar, onContinuar }: { onCancelar: () => void; onContinuar: () => void }) {
-  return (
-    <ModalSheet icon={iconPregunta} gap={10} doubleShadow>
-      <div className={styles.modalCol}>
-        <ModalHeader title="Cliente con solicitud existente" />
-        <div className={styles.modalText}>
-          <p>El cliente ya tiene una solicitud de reparto <b>creada</b> para la misma dirección.</p>
-          <p>&#8203;</p>
-          <p>
-            En caso de <b>continuar</b>, se generará una solicitud independiente para este pedido.
-          </p>
-          <p>&#8203;</p>
-        </div>
-        <div className={styles.modalButtons}>
-          <Button asset={grupo45} label="Cancelar" className={styles.flex1} onClick={onCancelar} />
-          <Button variant="success" icon="check" label="Continuar" className={styles.flex1} onClick={onContinuar} />
-        </div>
-      </div>
-    </ModalSheet>
   );
 }

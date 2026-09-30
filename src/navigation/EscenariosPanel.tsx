@@ -143,21 +143,22 @@ const GRUPOS: Grupo[] = [
     escenarios: [
       {
         id: 'uber-embarcado',
-        titulo: 'Ofrecimiento',
-        descripcion: 'Pantalla inicial de Uber: "Este embarque es candidato para envío por Uber". Muestra cliente, No. de embarque, estado del embarque, total de artículos, distancia y total.',
-        ruta: '/uber',
+        titulo: 'Ofrecimiento (modal)',
+        descripcion: 'Modal inferior "Este embarque es candidato para envío por Uber" sobre Datos de la factura. Muestra solo total, cantidad de artículos y distancia.',
+        ruta: '/facturacion',
         reglas: [
           'Sucursal habilitada + distancia ≤ 24 km.',
-          'Monto ≥ $150 y ≤ $15,000 (crédito) o ≤ $1,700 (Uber Cash). Si se niegan productos y el monto cae bajo $150 deja de ser candidato.',
+          'Monto ≥ $300 y ≤ $15,000 (crédito) o ≤ $1,700 (Uber Cash). Si se niegan productos y el monto cae bajo $300 no se muestra el ofrecimiento.',
           'Embarque en Monitor 1: estado "Creado — sin documentar, sin paquetería asignada". Si el embarque ya se documentó o se le asignó paquetería, deja de ser candidato.',
-          '"Ahora no" regresa a /facturacion; "Generar solicitud" abre el formulario.',
+          '"Ahora no" cierra el modal; el operador ve la factura con folio + embarque y puede reimprimir o regresar a tareas.',
+          '"Generar solicitud" navega al formulario.',
         ],
       },
       {
         id: 'uber-con-historial',
         titulo: 'Ofrecimiento con historial',
-        descripcion: 'Dirección Huerto 221 — el cliente tiene una solicitud entregada previa. Al generar la solicitud precarga nombre, teléfono, referencias y dpto.',
-        ruta: '/uber',
+        descripcion: 'Igual al ofrecimiento pero la dirección tiene una solicitud entregada previa del cliente. Al generar la solicitud precarga nombre, teléfono, referencias y dpto en el formulario.',
+        ruta: '/facturacion',
         reglas: [
           'Precarga desde HISTORIAL_UBER (más reciente por cliente + dirección).',
           'La descripción del paquete SIEMPRE inicia vacía.',
@@ -166,13 +167,12 @@ const GRUPOS: Grupo[] = [
       {
         id: 'uber-consolidacion',
         titulo: 'Solicitud existente',
-        descripcion: 'El cliente ya tiene una solicitud creada para la misma dirección. Se abre un aviso inferior para continuar y generar una solicitud independiente o cancelar y regresar al ofrecimiento.',
-        ruta: '/uber',
-        paso: 'consolidacion',
+        descripcion: 'En lugar del ofrecimiento aparece el modal "Cliente con solicitud existente" cuando ya hay una solicitud creada para el mismo cliente + dirección.',
+        ruta: '/facturacion',
         reglas: [
           'Se dispara cuando ACTIVOS_POR_CLIENTE_DIRECCION tiene una entrada para cliente+dirección.',
-          '"Cancelar" cierra el modal y regresa al ofrecimiento.',
-          '"Continuar" genera una solicitud independiente para este pedido.',
+          '"Cancelar" cierra el modal y regresa a la factura.',
+          '"Continuar" genera una solicitud independiente y abre el formulario.',
         ],
       },
       {
@@ -196,16 +196,6 @@ const GRUPOS: Grupo[] = [
         reglas: [
           'Precarga: nombre, teléfono, referencias, dpto/oficina, tipo de vehículo.',
           'Descripción del paquete la debe capturar el operador.',
-        ],
-      },
-      {
-        id: 'uber-monto-bajo',
-        titulo: 'Monto por debajo del mínimo',
-        descripcion: 'Se negaron todos los productos excepto el limpiador (1 pz = $25). El monto cae bajo $150 y aparece la pantalla "Este embarque no aplica" con el motivo explicado.',
-        ruta: '/uber',
-        reglas: [
-          'evaluarCandidatura devuelve motivo "monto-minimo".',
-          'La pantalla de No-candidato muestra el motivo y un solo botón "Regresar a tareas".',
         ],
       },
       {
