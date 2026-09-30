@@ -16,7 +16,7 @@ import { Button } from '@ds/components/atoms/Button/Button';
 import { Divider } from '@ds/components/atoms/Divider/Divider';
 import { ModalHeader, ModalIcon, ModalSheet } from '@ds/components/organisms/ModalSheet/ModalSheet';
 import { evaluarCandidatura, RESTRICCIONES_VEHICULO, type TipoVehiculo } from '../../domain/uber';
-import { totalArticulos } from '../../domain/pedido';
+import { montoPedido, totalArticulos } from '../../domain/pedido';
 import { FACTURACION } from '../../mocks/facturacion';
 import { precargar, SUCURSAL_ACTUAL, tieneActivoParaCliente, TIPO_PAGO_ACTUAL } from '../../mocks/uber';
 import { PEDIDO_ID } from '../../mocks/pedido';
@@ -58,12 +58,13 @@ export function SolicitudUber() {
   const direccion =
     FACTURACION.direccionesEntrega.find((d) => d.id === factura.direccionEntrega)?.texto ?? FACTURACION.direccionesEntrega[0].texto;
   const articulos = totalArticulos(pedido);
+  const monto = montoPedido(pedido);
   const embarqueNumero = factura.embarque?.numero ?? '—';
   const tituloEmbarque = `Solicitud de Uber - Embarque ${embarqueNumero}`;
 
   const candidatura = useMemo(
-    () => evaluarCandidatura({ sucursal: SUCURSAL_ACTUAL, monto: FACTURACION.total, tipoPago: TIPO_PAGO_ACTUAL }),
-    [],
+    () => evaluarCandidatura({ sucursal: SUCURSAL_ACTUAL, monto, tipoPago: TIPO_PAGO_ACTUAL }),
+    [monto],
   );
   const activo = tieneActivoParaCliente(clienteId, direccion);
   const previa = precargar(clienteId, direccion);
@@ -130,8 +131,7 @@ export function SolicitudUber() {
   };
 
   if (!candidatura.candidato) {
-    if (typeof window !== 'undefined') window.setTimeout(irACapturas, 0);
-    return null;
+    return <NoCandidatoScreen motivo={candidatura.motivo} onSalir={irACapturas} />;
   }
 
   /* ---------------- Ofrecimiento (+ modal opcional de consolidación) ---------------- */
@@ -171,7 +171,7 @@ export function SolicitudUber() {
               <Divider variant="modal" />
               <div className={styles.infoRow}>
                 <b>Total</b>
-                <span>${FACTURACION.total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}</span>
+                <span>${monto.toLocaleString('es-MX', { minimumFractionDigits: 2 })}</span>
               </div>
             </div>
           </div>
@@ -323,6 +323,61 @@ function FieldFloating({ label, icon, children }: { label: string; icon: string;
       <img src={icon} alt="" width={20} height={20} className={styles.fieldIcon} />
       <div className={styles.fieldBody}>{children}</div>
       <span className={styles.fieldLabel}>{label}</span>
+    </div>
+  );
+}
+
+/**
+ * Pantalla que aparece cuando el embarque NO cumple los criterios de Uber (monto, distancia, sucursal).
+ * Antes redirigía silenciosamente a /tareas; ahora explica el motivo para que el operador lo entienda.
+ */
+function NoCandidatoScreen({
+  motivo,
+  onSalir,
+}: {
+  motivo: 'sucursal' | 'distancia' | 'monto-credito' | 'monto-cash' | 'sucursal-cash' | 'monto-minimo';
+  onSalir: () => void;
+}) {
+  const copy: Record<typeof motivo, { titulo: string; texto: string }> = {
+    'monto-minimo': {
+      titulo: 'Este embarque no aplica para envío por Uber',
+      texto: `El monto del embarque es menor al mínimo permitido ($150). Cuando el ticket es muy bajo el envío por Uber no es rentable.`,
+    },
+    'monto-credito': {
+      titulo: 'Este embarque no aplica para envío por Uber',
+      texto: 'El monto del embarque supera el máximo permitido a crédito ($15,000).',
+    },
+    'monto-cash': {
+      titulo: 'Este embarque no aplica para envío por Uber',
+      texto: 'El monto del embarque supera el máximo permitido con Uber Cash ($1,700).',
+    },
+    distancia: {
+      titulo: 'Fuera de rango de reparto',
+      texto: 'La distancia entre la sucursal y el destino supera los 24 km permitidos por Uber.',
+    },
+    sucursal: {
+      titulo: 'Sucursal no habilitada',
+      texto: 'Esta sucursal aún no está habilitada para el envío anticipado por Uber.',
+    },
+    'sucursal-cash': {
+      titulo: 'Sucursal sin Uber Cash',
+      texto: 'Esta sucursal no está habilitada para Uber Cash.',
+    },
+  };
+  const { titulo, texto } = copy[motivo];
+  return (
+    <div className={styles.screen}>
+      <AppHeader showBack={false} />
+      <ContentPanel title="Solicitud de Uber" paddingBottom={45} bottom={0}>
+        <div className={styles.center}>
+          <div className={styles.warn}>!</div>
+          <p className={styles.h1}>{titulo}</p>
+          <p className={styles.text}>{texto}</p>
+        </div>
+      </ContentPanel>
+      <BottomBar variant="exit">
+        <Button variant="default" label="Regresar a tareas" className={styles.fullBtn} onClick={onSalir} />
+      </BottomBar>
     </div>
   );
 }

@@ -30,6 +30,8 @@ export type ProductoPedido = {
   esMiscelaneo: boolean;
   multiploMayorQueEvento: boolean;
   costoUnitario: number;
+  /** Precio unitario de venta (para calcular el monto del pedido en el ofrecimiento de Uber). */
+  precioUnitario: number;
 };
 
 const ubicacion: ProductoPedido['ubicacion'] = ['Planta baja', 'Pasillo 18', 'Torre 5', 'Nivel 1'];
@@ -37,6 +39,12 @@ const base = { ubicacion, planta: 'Planta baja', pasillo: '18', torre: '5', nive
 
 export const PEDIDO_ID = '123456';
 
+/**
+ * Precios y cantidades pensados para que el total del pedido sume exactamente $1,000 MXN
+ * (base del ofrecimiento de Uber). Si el operador niega todos los productos y deja solo uno,
+ * la mayoría cae bajo el mínimo de $150 y el pedido deja de ser candidato — pensado para
+ * demostrar la regla `montoMinimo` de `REGLAS_UBER` en la demo.
+ */
 export const PRODUCTOS: ProductoPedido[] = [
   {
     ...base,
@@ -48,17 +56,7 @@ export const PRODUCTOS: ProductoPedido[] = [
     esMiscelaneo: true, // revisión simplificada en 3316:18734
     multiploMayorQueEvento: false,
     costoUnitario: 0,
-  },
-  {
-    ...base,
-    codigo: '1964000',
-    descripcion: 'FOCO HALOGENO H4 / 9003 TRANSPARENTE 12 VOLTIOS 100/90 1 P43',
-    foto: foto1964000,
-    existencia: 8,
-    solicitado: 5,
-    esMiscelaneo: false, // escaneo forzoso en 3058:12380
-    multiploMayorQueEvento: false,
-    costoUnitario: 100,
+    precioUnitario: 30, // 10 × $30 = $300
   },
   {
     ...base,
@@ -70,6 +68,30 @@ export const PRODUCTOS: ProductoPedido[] = [
     esMiscelaneo: false, // escaneo forzoso en 3091:15591
     multiploMayorQueEvento: false,
     costoUnitario: 100,
+    precioUnitario: 40, // 5 × $40 = $200
+  },
+  {
+    ...base,
+    codigo: '3658201',
+    descripcion: 'SOLENOIDE MARCHA DELCO 29MT 12V (10515838) BRASIL',
+    existencia: 4,
+    solicitado: 2,
+    esMiscelaneo: false, // escaneo forzoso (Normal)
+    multiploMayorQueEvento: false,
+    costoUnitario: 100,
+    precioUnitario: 175, // 2 × $175 = $350
+  },
+  {
+    ...base,
+    codigo: '1964000',
+    descripcion: 'FOCO HALOGENO H4/9003 TRANSPARENTE 12V 100/90 1 P43',
+    foto: foto1964000,
+    existencia: 8,
+    solicitado: 2,
+    esMiscelaneo: false, // escaneo forzoso en 3058:12380
+    multiploMayorQueEvento: false,
+    costoUnitario: 100,
+    precioUnitario: 50, // 2 × $50 = $100 → por debajo del mínimo si es el único surtido
   },
   {
     ...base,
@@ -81,17 +103,19 @@ export const PRODUCTOS: ProductoPedido[] = [
     esMiscelaneo: true,
     multiploMayorQueEvento: false,
     costoUnitario: 0,
+    precioUnitario: 25, // 1 × $25 = $25 → NO candidato si es el único
   },
   {
     ...base,
     codigo: '4105000',
-    descripcion: 'CINCHO PLÁSTICO NEGRO 2" IMPORTADO 2´ C',
+    descripcion: 'TERMINAL INSTALACION REDONDA ZINC ROJO 5/32 IMPORTADO R-5/32"',
     foto: foto4105000,
     existencia: 4,
     solicitado: 2,
     esMiscelaneo: true, // revisión simplificada en 3126:14858
     multiploMayorQueEvento: false,
     costoUnitario: 0,
+    precioUnitario: 12.5, // 2 × $12.50 = $25 → NO candidato si es el único
   },
 ];
 

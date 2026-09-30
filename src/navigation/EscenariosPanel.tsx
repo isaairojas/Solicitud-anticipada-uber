@@ -148,7 +148,7 @@ const GRUPOS: Grupo[] = [
         ruta: '/uber',
         reglas: [
           'Sucursal habilitada + distancia ≤ 24 km.',
-          'Monto ≤ $15,000 (crédito) o ≤ $1,700 (Uber Cash).',
+          'Monto ≥ $150 y ≤ $15,000 (crédito) o ≤ $1,700 (Uber Cash). Si se niegan productos y el monto cae bajo $150 deja de ser candidato.',
           'Embarque en Monitor 1: estado "Creado — sin documentar, sin paquetería asignada". Si el embarque ya se documentó o se le asignó paquetería, deja de ser candidato.',
           '"Ahora no" regresa a /facturacion; "Generar solicitud" abre el formulario.',
         ],
@@ -196,6 +196,16 @@ const GRUPOS: Grupo[] = [
         reglas: [
           'Precarga: nombre, teléfono, referencias, dpto/oficina, tipo de vehículo.',
           'Descripción del paquete la debe capturar el operador.',
+        ],
+      },
+      {
+        id: 'uber-monto-bajo',
+        titulo: 'Monto por debajo del mínimo',
+        descripcion: 'Se negaron todos los productos excepto el limpiador (1 pz = $25). El monto cae bajo $150 y aparece la pantalla "Este embarque no aplica" con el motivo explicado.',
+        ruta: '/uber',
+        reglas: [
+          'evaluarCandidatura devuelve motivo "monto-minimo".',
+          'La pantalla de No-candidato muestra el motivo y un solo botón "Regresar a tareas".',
         ],
       },
       {

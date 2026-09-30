@@ -59,6 +59,18 @@
   font: 700 36px/normal var(--font-family-roboto);
 }
 
+.warn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: var(--color-botones-amarillo);
+  color: var(--color-negro);
+  font: 700 36px/normal var(--font-family-roboto);
+}
+
 .h1 {
   color: var(--color-negro);
   font: var(--font-h2-headline);

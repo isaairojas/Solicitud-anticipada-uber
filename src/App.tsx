@@ -12,12 +12,14 @@ import { Impresion } from './screens/configuraciones/Impresion';
 import { SolicitudUber } from './screens/uber/SolicitudUber';
 import { ToastHost } from './navigation/ToastHost';
 import { EscenariosPanel } from './navigation/EscenariosPanel';
+import { ProductosCheatsheet } from './navigation/ProductosCheatsheet';
 
 export function App() {
   const { pathname } = useLocation();
   const { etapa } = useStore();
   const rutasConPanel = ['/tareas', '/surtido', '/facturacion', '/embarque', '/uber'];
   const mostrarPanel = rutasConPanel.some((r) => pathname.startsWith(r));
+  const mostrarProductos = pathname.startsWith('/surtido');
   return (
     <>
       <div className="app-frame">
@@ -38,6 +40,7 @@ export function App() {
         </Routes>
         <ToastHost />
       </div>
+      {mostrarProductos && <ProductosCheatsheet />}
       {mostrarPanel && <EscenariosPanel />}
     </>
   );

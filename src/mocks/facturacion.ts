@@ -3,7 +3,8 @@
  * Textos y valores tomados literalmente de Figma (🧾 Facturación 3287:5564 y 🚚 Embarque 6157:1119).
  */
 export const FACTURACION = {
-  total: 580.0,
+  /** Total nominal del pedido (10×$30 + 5×$40 + 2×$175 + 2×$50 + 1×$25 + 2×$12.50 = $1,000). */
+  total: 1_000.0,
   empleado: '200655 | MONTSERRAT PENICHE VILLANUEVA',
   pedido: '#123456 | Mostrador',
   formaPago: 'Factura | Venta a crédito',

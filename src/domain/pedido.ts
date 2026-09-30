@@ -50,6 +50,19 @@ export function totalArticulos(s: PedidoState): number {
   return s.items.reduce((n, i) => n + (i.negado ? 0 : i.surtido), 0);
 }
 
+/**
+ * Monto real del pedido según lo que efectivamente se surtió (piezas × precio unitario).
+ * Se usa en la evaluación de candidatura de Uber: si el operador niega productos, el monto baja
+ * y puede caer bajo el mínimo (`REGLAS_UBER.montoMinimo`) → deja de ser candidato.
+ */
+export function montoPedido(s: PedidoState): number {
+  return s.items.reduce((total, i) => {
+    if (i.negado) return total;
+    const p = producto(i.codigo);
+    return total + (p ? p.precioUnitario * i.surtido : 0);
+  }, 0);
+}
+
 export function statusDe(item: ItemState): OrderItemStatus {
   if (item.negado) return 'negado';
   const p = producto(item.codigo)!;

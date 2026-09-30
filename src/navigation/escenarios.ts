@@ -12,12 +12,13 @@ function pedidoCon(cambios: Record<string, Parcial>): PedidoState {
   return { ...s, items: s.items.map((i) => ({ ...i, ...(cambios[i.codigo] ?? {}) })) };
 }
 
-/** Pedido con las 5 partidas surtidas + revisadas + finalizado (23 artículos). Base para escenarios avanzados. */
+/** Pedido con las 6 partidas surtidas + revisadas + finalizado (22 piezas, $1,000). Base para escenarios avanzados. */
 const PEDIDO_COMPLETO: PedidoState = {
   ...pedidoCon({
     '1394000': { surtido: 10, revisado: 10, revisionCompleta: true },
-    '1964000': { surtido: 5, revisado: 5, revisionCompleta: true },
     '2546000': { surtido: 5, revisado: 5, revisionCompleta: true },
+    '3658201': { surtido: 2, revisado: 2, revisionCompleta: true },
+    '1964000': { surtido: 2, revisado: 2, revisionCompleta: true },
     '2655000': { surtido: 1, revisado: 1, revisionCompleta: true },
     '4105000': { surtido: 2, revisado: 2, revisionCompleta: true },
   }),
@@ -35,11 +36,11 @@ export const ESCENARIOS: Record<string, Semilla> = {
 
   /* ───────── Surtido / Revisión ───────── */
   // 3056:11810 / 3058:12380 — 1964000 surtido completo, sin revisar
-  'surtido-1964000': { pedido: pedidoCon({ '1964000': { surtido: 5 } }) },
-  // 3081:1891 — revisión 5/5
-  'revision-1964000-completa': { pedido: pedidoCon({ '1964000': { surtido: 5, revisado: 5 } }) },
+  'surtido-1964000': { pedido: pedidoCon({ '1964000': { surtido: 2 } }) },
+  // 3081:1891 — revisión 2/2
+  'revision-1964000-completa': { pedido: pedidoCon({ '1964000': { surtido: 2, revisado: 2 } }) },
   // 3086:11303 — 1964000 revisado
-  'revisado-1964000': { pedido: pedidoCon({ '1964000': { surtido: 5, revisado: 5, revisionCompleta: true } }) },
+  'revisado-1964000': { pedido: pedidoCon({ '1964000': { surtido: 2, revisado: 2, revisionCompleta: true } }) },
   // 3089:13509 — 2546000 parcial 3 de 5
   'parcial-2546000': { pedido: pedidoCon({ '2546000': { surtido: 3 } }) },
   // 3095:16325 — 2546000 parcial revisado
@@ -111,6 +112,24 @@ export const ESCENARIOS: Record<string, Semilla> = {
     etapa: 'uber',
     pedido: PEDIDO_COMPLETO,
     factura: { folio: '1099204', copias: 1, direccionEntrega: 2, embarque: EMBARQUE_DEFAULT },
+  },
+  /* Solo el producto más pequeño surtido (1 pieza LIMPIADOR = $25) → monto < mínimo → NO candidato.
+     Demo de la regla `REGLAS_UBER.montoMinimo`. */
+  'uber-monto-bajo': {
+    etapa: 'uber',
+    pedido: {
+      ...pedidoCon({
+        '2655000': { surtido: 1, revisado: 1, revisionCompleta: true },
+        // resto negado
+        '1394000': { negado: true, surtido: 0 },
+        '2546000': { negado: true, surtido: 0 },
+        '3658201': { negado: true, surtido: 0 },
+        '1964000': { negado: true, surtido: 0 },
+        '4105000': { negado: true, surtido: 0 },
+      }),
+      finalizado: true,
+    },
+    factura: { folio: '1099204', copias: 1, direccionEntrega: 1, embarque: EMBARQUE_DEFAULT },
   },
   /* Pantalla final "Solicitud creada" */
   'uber-confirmada': {

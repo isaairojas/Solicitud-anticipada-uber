@@ -7,6 +7,9 @@ export const REGLAS_UBER = {
   distanciaMaxKm: 24,
   montoMaxCredito: 15_000,
   montoMaxCash: 1_700,
+  /** Monto mínimo del pedido para ofrecer envío por Uber (no vale la pena un envío pagado
+      con un ticket muy pequeño). Se aplica al monto real del pedido (piezas × precio unitario). */
+  montoMinimo: 150,
   /** Concepto de pago Uber Cash */
   conceptoUberCash: 55,
 } as const;
@@ -44,7 +47,7 @@ export type CandidaturaInput = {
 
 export type CandidaturaResultado =
   | { candidato: true }
-  | { candidato: false; motivo: 'sucursal' | 'distancia' | 'monto-credito' | 'monto-cash' | 'sucursal-cash' };
+  | { candidato: false; motivo: 'sucursal' | 'distancia' | 'monto-credito' | 'monto-cash' | 'sucursal-cash' | 'monto-minimo' };
 
 /**
  * Evalúa si un pedido es candidato para el ofrecimiento de solicitud anticipada.
@@ -53,6 +56,7 @@ export type CandidaturaResultado =
 export function evaluarCandidatura({ sucursal, monto, tipoPago }: CandidaturaInput): CandidaturaResultado {
   if (!sucursal.habilitadaUber) return { candidato: false, motivo: 'sucursal' };
   if (sucursal.distanciaKm > REGLAS_UBER.distanciaMaxKm) return { candidato: false, motivo: 'distancia' };
+  if (monto < REGLAS_UBER.montoMinimo) return { candidato: false, motivo: 'monto-minimo' };
   if (tipoPago === 'credito' && monto > REGLAS_UBER.montoMaxCredito) return { candidato: false, motivo: 'monto-credito' };
   if (tipoPago === 'uber-cash') {
     if (!sucursal.habilitadaUberCash) return { candidato: false, motivo: 'sucursal-cash' };

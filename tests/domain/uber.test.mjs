@@ -37,6 +37,16 @@ const casos = [
     entrada: { sucursal: { habilitadaUber: true, habilitadaUberCash: false, distanciaKm: 5 }, monto: 1000, tipoPago: 'uber-cash' },
     esperado: { candidato: false, motivo: 'sucursal-cash' },
   },
+  {
+    n: '7. Monto por debajo del mínimo ($100 < $150) → NO candidato',
+    entrada: { sucursal: { habilitadaUber: true, habilitadaUberCash: false, distanciaKm: 5 }, monto: 100, tipoPago: 'credito' },
+    esperado: { candidato: false, motivo: 'monto-minimo' },
+  },
+  {
+    n: '8. Monto exactamente en el mínimo ($150) → candidato (límite inclusivo)',
+    entrada: { sucursal: { habilitadaUber: true, habilitadaUberCash: false, distanciaKm: 5 }, monto: REGLAS_UBER.montoMinimo, tipoPago: 'credito' },
+    esperado: { candidato: true },
+  },
 ];
 
 for (const c of casos) {
