@@ -6,7 +6,7 @@
  * - `ConsolidacionModal`: aparece cuando el cliente ya tiene una solicitud de reparto creada para la
  *   misma dirección (`ACTIVOS_POR_CLIENTE_DIRECCION`). Reemplaza al ofrecimiento.
  */
-import handPackage from '@assets/icons/hand-package.svg';
+import iconoUber from '@assets/icons/modal-icono-uber.svg';
 import iconoPregunta from '@assets/icons/modal-icono-pregunta.svg';
 import grupo45 from '@assets/icons/grupo-45-cancelar.svg';
 import { Button } from '@ds/components/atoms/Button/Button';
@@ -15,7 +15,7 @@ import { ModalHeader, ModalIcon, ModalSheet } from '@ds/components/organisms/Mod
 import { SUCURSAL_ACTUAL } from '../../mocks/uber';
 import styles from './UberModals.module.css';
 
-const iconPaquete = <ModalIcon src={handPackage} inset="-2.84% -2.27% -0.56% -1.14%" />;
+const iconUber = <ModalIcon src={iconoUber} inset="-2.84% -2.27% -0.56% -1.14%" />;
 const iconPregunta = <ModalIcon src={iconoPregunta} inset="-2.84% -2.27% -0.56% -1.14%" />;
 
 const currency = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' });
@@ -36,9 +36,10 @@ export function OfrecimientoUberModal({
   onContinuar: () => void;
 }) {
   return (
-    <ModalSheet icon={iconPaquete} gap={10} doubleShadow>
+    <ModalSheet icon={iconUber} gap={10} doubleShadow>
       <div className={styles.col}>
         <ModalHeader title="Este embarque es candidato para envío por Uber" />
+        <p className={styles.pregunta}>¿Desea crear y solicitar el reparto por Uber?</p>
         <div className={styles.info}>
           <div className={styles.row}>
             <b>Total</b>

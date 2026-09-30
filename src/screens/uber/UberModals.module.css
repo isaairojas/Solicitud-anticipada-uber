@@ -6,6 +6,13 @@
   width: 100%;
 }
 
+.pregunta {
+  width: 100%;
+  color: var(--color-negro);
+  font: 700 15px/1.35 var(--font-family-roboto);
+  text-align: center;
+}
+
 .info {
   display: flex;
   flex-direction: column;
