@@ -20,6 +20,8 @@ type Escenario = {
   paso?: string;
   overlay?: string;
   generar?: 'error';
+  /** Fuerza el flujo donde el cliente no tiene embarques activos previos (?sinActivos=1). */
+  sinActivos?: boolean;
   /** Reglas o notas clave que aplican a esta pantalla. Se muestran como bullets debajo de la descripción. */
   reglas: string[];
 };
@@ -104,41 +106,43 @@ const GRUPOS: Grupo[] = [
     ],
   },
   {
-    titulo: 'Embarque (modales)',
+    titulo: 'Embarque',
     escenarios: [
       {
-        id: 'embarque-nuevo',
-        titulo: 'Modal — Nuevo embarque',
-        descripcion: 'Aviso "No existe un embarque activo para este cliente" con opción de crear uno nuevo.',
+        id: 'embarque-sin-activos',
+        titulo: 'Sin embarque previo',
+        descripcion: 'El cliente no tiene embarques activos. Al dar "Continuar a embarque" se abre directamente el modal "Nuevo embarque" (No existe un embarque activo para este cliente).',
         ruta: '/facturacion',
         overlay: 'nuevoEmbarque',
+        sinActivos: true,
         reglas: [
+          'Se dispara cuando `EMBARQUES_ACTIVOS` está vacío (o con ?sinActivos=1).',
           'X cierra el modal sin crear nada — regresa a la factura.',
           '✓ crea el embarque (mock 147707) y abre "Embarque creado".',
         ],
       },
       {
-        id: 'embarque-creado',
-        titulo: 'Modal — Embarque creado',
-        descripcion: 'Confirmación con el No. de embarque generado. Al aceptar dispara el ofrecimiento de Uber.',
-        ruta: '/facturacion',
-        overlay: 'embarqueCreado',
-        reglas: [
-          'El No. de embarque queda guardado en el store.',
-          'Aceptar navega a /uber para evaluar la candidatura ERB-53024.',
-          'Si el usuario luego rechaza Uber ("Ahora no"), regresa aquí con folio + embarque visibles.',
-        ],
-      },
-      {
-        id: 'embarque-agregar',
-        titulo: 'Modal — Agregar embarque',
-        descripcion: 'Cuando ya hay N embarques activos del cliente, muestra la elección entre agregar la factura a uno existente o crear uno nuevo.',
+        id: 'embarque-con-activos',
+        titulo: 'Con embarque activo',
+        descripcion: 'El cliente ya tiene N embarques activos. Al dar "Continuar a embarque" aparece el modal "Agregar embarque" para elegir entre sumar la factura a uno existente o crear uno nuevo.',
         ruta: '/facturacion',
         overlay: 'agregarEleccion',
         reglas: [
-          'Se dispara cuando EMBARQUES_ACTIVOS del mock no está vacío.',
-          '"Agregar" abre un selector con los embarques activos.',
-          '"Nuevo" salta al modal "Nuevo embarque".',
+          'Se dispara cuando `EMBARQUES_ACTIVOS` tiene entradas (por default 2 en el mock).',
+          '"Agregar existente" abre un selector con los embarques activos.',
+          '"Nuevo embarque" salta directo a "Embarque creado" (ya está informado de los activos).',
+        ],
+      },
+      {
+        id: 'embarque-creado',
+        titulo: 'Embarque creado',
+        descripcion: 'Modal de confirmación con el No. de embarque generado. Al aceptar dispara el ofrecimiento de Uber sobre la misma pantalla.',
+        ruta: '/facturacion',
+        overlay: 'embarqueCreado',
+        reglas: [
+          'El No. de embarque queda guardado en el store (factura.embarque).',
+          'Al aceptar aparece el modal de Uber si el pedido es candidato.',
+          'Si el usuario rechaza Uber, la factura queda visible con folio + embarque.',
         ],
       },
     ],
@@ -220,13 +224,14 @@ const GRUPOS: Grupo[] = [
 ];
 
 function currentQuery() {
-  if (typeof window === 'undefined') return { escenario: '', paso: '', overlay: '', generar: '' };
+  if (typeof window === 'undefined') return { escenario: '', paso: '', overlay: '', generar: '', sinActivos: '' };
   const p = new URLSearchParams(window.location.search);
   return {
     escenario: p.get('escenario') ?? '',
     paso: p.get('paso') ?? '',
     overlay: p.get('overlay') ?? '',
     generar: p.get('generar') ?? '',
+    sinActivos: p.get('sinActivos') ?? '',
   };
 }
 
@@ -235,6 +240,7 @@ function urlFor(e: Escenario) {
   if (e.paso) q.set('paso', e.paso);
   if (e.overlay) q.set('overlay', e.overlay);
   if (e.generar) q.set('generar', e.generar);
+  if (e.sinActivos) q.set('sinActivos', '1');
   // Reload total: la semilla del store se lee en main.tsx; sin reload no se aplica el nuevo escenario.
   // BASE_URL es "/" en dev y "/Solicitud-anticipada-uber/" en GitHub Pages (vite base).
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -287,7 +293,8 @@ export function EscenariosPanel() {
                   q.escenario === e.id &&
                   (e.paso ? q.paso === e.paso : true) &&
                   (e.overlay ? q.overlay === e.overlay : true) &&
-                  (e.generar ? q.generar === e.generar : true);
+                  (e.generar ? q.generar === e.generar : true) &&
+                  (e.sinActivos ? q.sinActivos === '1' : q.sinActivos !== '1');
                 return (
                   <li key={e.id}>
                     <a href={urlFor(e)} onClick={guardarScroll} className={`${styles.item} ${activo ? styles.itemActivo : ''}`}>

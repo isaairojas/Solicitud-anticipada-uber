@@ -91,6 +91,10 @@ export function DatosFactura() {
     [monto],
   );
   const activo = tieneActivoParaCliente(CLIENTE_ID, direccionActualTexto);
+  /** `?sinActivos=1` fuerza el flujo donde el cliente no tiene embarques activos previos y "Continuar a
+      embarque" salta directo al modal "Nuevo embarque". Sin el flag se usa `EMBARQUES_ACTIVOS` del mock. */
+  const sinActivos = new URLSearchParams(window.location.search).get('sinActivos') === '1';
+  const embarquesActivos = sinActivos ? [] : EMBARQUES_ACTIVOS;
   /** Modal de Uber sobre Datos factura: aparece al terminar de crear el embarque y cumplir la candidatura. */
   const mostrarOfrecimiento =
     estado === 'facturada' && !!factura.embarque && candidatura.candidato && !ofrecimientoRechazado && overlay === null;
@@ -116,7 +120,7 @@ export function DatosFactura() {
 
   const continuarEmbarque = () => {
     // Existen embarques activos → mostrar elección; en caso contrario → nuevo embarque directo
-    if (EMBARQUES_ACTIVOS.length > 0) setOverlay({ k: 'agregarEleccion' });
+    if (embarquesActivos.length > 0) setOverlay({ k: 'agregarEleccion' });
     else setOverlay({ k: 'nuevoEmbarque' });
   };
 
@@ -290,7 +294,7 @@ export function DatosFactura() {
 
       {overlay?.k === 'agregarEleccion' && (
         <AgregarEmbarqueEleccionModal
-          cantidad={EMBARQUES_ACTIVOS.length}
+          cantidad={embarquesActivos.length}
           // Ya se informó al operador que existen embarques activos y aun así eligió "Nuevo embarque":
           // saltamos la confirmación intermedia "¿continuar con la creación?" y creamos el embarque directo.
           onNuevo={() => setOverlay({ k: 'embarqueCreado', numero: '147707' })}
@@ -303,7 +307,7 @@ export function DatosFactura() {
         <AgregarEmbarqueSelectorModal
           onCancel={() => setOverlay(null)}
           onConfirm={(numero) => {
-            const emb = EMBARQUES_ACTIVOS.find((e) => e.numero === numero)!;
+            const emb = embarquesActivos.find((e) => e.numero === numero)!;
             setOverlay({ k: 'facturaAgregada', numero: emb.numero, facturas: emb.facturas + 1, fecha: emb.fecha });
           }}
         />
