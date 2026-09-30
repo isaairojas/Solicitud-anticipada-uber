@@ -5,7 +5,12 @@
  * `?overlay=` para preabrir un sub-estado. Se muestra en `/tareas`, `/surtido`, `/facturacion` y `/uber`.
  * Fuera del handheld (queda a la derecha del app-frame de 430 px) y oculto bajo 900 px de viewport.
  */
+import { useEffect, useRef } from 'react';
 import styles from './EscenariosPanel.module.css';
+
+/** Clave en sessionStorage para preservar el scroll del panel a través del reload
+    que dispara la navegación con `<a href>` (necesaria para que la semilla se aplique). */
+const SCROLL_KEY = 'escenarios-panel-scroll';
 
 type Escenario = {
   id: string;
@@ -238,8 +243,33 @@ function urlFor(e: Escenario) {
 
 export function EscenariosPanel() {
   const q = currentQuery();
+  const panelRef = useRef<HTMLElement>(null);
+
+  // Restaurar scroll al montar (después del reload).
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+    try {
+      const saved = sessionStorage.getItem(SCROLL_KEY);
+      if (saved) el.scrollTop = parseInt(saved, 10);
+    } catch {
+      /* sessionStorage no disponible */
+    }
+  }, []);
+
+  // Guardar posición del scroll cada vez que el usuario hace click en un escenario, justo antes del reload.
+  const guardarScroll = () => {
+    const el = panelRef.current;
+    if (!el) return;
+    try {
+      sessionStorage.setItem(SCROLL_KEY, String(el.scrollTop));
+    } catch {
+      /* sessionStorage no disponible */
+    }
+  };
+
   return (
-    <aside className={styles.panel} aria-label="Escenarios del flujo">
+    <aside ref={panelRef} className={styles.panel} aria-label="Escenarios del flujo">
       <header className={styles.header}>
         <span className={styles.badge}>Flujo</span>
         <h2 className={styles.title}>Escenarios</h2>
@@ -260,7 +290,7 @@ export function EscenariosPanel() {
                   (e.generar ? q.generar === e.generar : true);
                 return (
                   <li key={e.id}>
-                    <a href={urlFor(e)} className={`${styles.item} ${activo ? styles.itemActivo : ''}`}>
+                    <a href={urlFor(e)} onClick={guardarScroll} className={`${styles.item} ${activo ? styles.itemActivo : ''}`}>
                       <span className={styles.itemStep}>{i + 1}</span>
                       <span className={styles.itemBody}>
                         <span className={styles.itemTitulo}>{e.titulo}</span>
