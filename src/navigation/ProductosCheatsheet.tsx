@@ -100,8 +100,8 @@ export function ProductosCheatsheet() {
         </table>
       </div>
       <p className={styles.hint}>
-        Si niegas todo excepto el <b>Interruptor</b> ($200), <b>Foco H4</b> ($100), <b>Limpiador</b> ($25) o{' '}
-        <b>Terminal</b> ($25), el monto cae bajo el mínimo de <b>$300</b> y el pedido deja de ser candidato para Uber.
+        Pedido reducido a 2 artículos para simplificar la demo. Total: <b>$4,000</b>. Con el mínimo actual
+        de <b>$300</b> ambos productos individualmente siguen calificando (Cinta $3,000 · Interruptor $1,000).
       </p>
     </aside>
   );

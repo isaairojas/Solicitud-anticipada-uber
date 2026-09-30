@@ -12,15 +12,11 @@ function pedidoCon(cambios: Record<string, Parcial>): PedidoState {
   return { ...s, items: s.items.map((i) => ({ ...i, ...(cambios[i.codigo] ?? {}) })) };
 }
 
-/** Pedido con las 6 partidas surtidas + revisadas + finalizado (22 piezas, $1,000). Base para escenarios avanzados. */
+/** Pedido con las 2 partidas surtidas + revisadas + finalizado (15 piezas, $4,000). Base para escenarios avanzados. */
 const PEDIDO_COMPLETO: PedidoState = {
   ...pedidoCon({
     '1394000': { surtido: 10, revisado: 10, revisionCompleta: true },
     '2546000': { surtido: 5, revisado: 5, revisionCompleta: true },
-    '3658201': { surtido: 2, revisado: 2, revisionCompleta: true },
-    '1964000': { surtido: 2, revisado: 2, revisionCompleta: true },
-    '2655000': { surtido: 1, revisado: 1, revisionCompleta: true },
-    '4105000': { surtido: 2, revisado: 2, revisionCompleta: true },
   }),
   finalizado: true,
 };
@@ -35,12 +31,8 @@ export const ESCENARIOS: Record<string, Semilla> = {
   'tareas-facturacion': { etapa: 'facturacion', pedido: PEDIDO_COMPLETO },
 
   /* ───────── Surtido / Revisión ───────── */
-  // 3056:11810 / 3058:12380 — 1964000 surtido completo, sin revisar
-  'surtido-1964000': { pedido: pedidoCon({ '1964000': { surtido: 2 } }) },
-  // 3081:1891 — revisión 2/2
-  'revision-1964000-completa': { pedido: pedidoCon({ '1964000': { surtido: 2, revisado: 2 } }) },
-  // 3086:11303 — 1964000 revisado
-  'revisado-1964000': { pedido: pedidoCon({ '1964000': { surtido: 2, revisado: 2, revisionCompleta: true } }) },
+  // 1394000 (CINTA, misceláneo) surtido completo 10/10
+  'surtido-1394000': { pedido: pedidoCon({ '1394000': { surtido: 10, revisado: 10, revisionCompleta: true } }) },
   // 3089:13509 — 2546000 parcial 3 de 5
   'parcial-2546000': { pedido: pedidoCon({ '2546000': { surtido: 3 } }) },
   // 3095:16325 — 2546000 parcial revisado
