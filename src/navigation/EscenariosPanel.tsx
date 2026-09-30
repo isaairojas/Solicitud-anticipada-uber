@@ -164,27 +164,6 @@ const GRUPOS: Grupo[] = [
         ],
       },
       {
-        id: 'uber-con-historial',
-        titulo: 'Ofrecimiento con historial',
-        descripcion: 'Igual al ofrecimiento pero la dirección tiene una solicitud entregada previa del cliente. Al generar la solicitud precarga nombre, teléfono, referencias y dpto en el formulario.',
-        ruta: '/facturacion',
-        reglas: [
-          'Precarga desde HISTORIAL_UBER (más reciente por cliente + dirección).',
-          'La descripción del paquete SIEMPRE inicia vacía.',
-        ],
-      },
-      {
-        id: 'uber-consolidacion',
-        titulo: 'Solicitud existente',
-        descripcion: 'En lugar del ofrecimiento aparece el modal "Cliente con solicitud existente" cuando ya hay una solicitud creada para el mismo cliente + dirección.',
-        ruta: '/facturacion',
-        reglas: [
-          'Se dispara cuando ACTIVOS_POR_CLIENTE_DIRECCION tiene una entrada para cliente+dirección.',
-          '"Cancelar" cierra el modal y regresa a la factura.',
-          '"Continuar" genera una solicitud independiente y abre el formulario.',
-        ],
-      },
-      {
         id: 'uber-formulario-vacio',
         titulo: 'Formulario vacío',
         descripcion: 'Formulario "Solicitud de Uber - Embarque N" para un cliente sin historial: todos los campos vacíos.',
